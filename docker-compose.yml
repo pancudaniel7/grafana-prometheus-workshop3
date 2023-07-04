@@ -16,39 +16,15 @@ services:
     volumes:
       - ./grafana.db:/etc/grafana/grafana.db
       - ./grafana.ini:/etc/grafana/grafana.ini
-
-  node-exporter:
-    image: prom/node-exporter
+      - ./grafana/provisioning:/usr/share/grafana/conf/provisioning
+      - ./grafana/provisioning:/etc/grafana/provisioning
+  microservice-demo:
+    image: microservice-demo
     ports:
-      - 9100:9100
-
-  nginx-exporter: # nginx + nginx-exporter inside
-    image: etiennetremel/nginx-prometheus
-    ports:
-      - 8080:80      # serving website
-      - 9101:9101    # metrics
-
-  postgres:
-    image: postgres:10
-    ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_USER=workshop
-      - POSTGRES_PASSWORD=workshop
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-
-  postgresql-exporter:
-    image: wrouesnel/postgres_exporter
-    ports:
-      - 9187:9187
-    environment:
-      - DATA_SOURCE_NAME=postgresql://workshop:workshop@postgres:5432/workshop?sslmode=disable
-      - PG_EXPORTER_EXTEND_QUERY_PATH=/custom-queries.yaml
-    volumes:
-      - ./custom-queries.yml:/custom-queries.yaml
-    depends_on:
-      - postgres
+      - 8000:8000
+    build:
+      context: microservice-demo/
+      dockerfile: Dockerfile
 
 volumes:
   prometheus-data:

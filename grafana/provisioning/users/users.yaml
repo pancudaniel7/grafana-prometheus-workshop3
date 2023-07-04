@@ -1,0 +1,10 @@
+apiVersion: 2
+
+users:
+  - name: admin
+    email: admin@example.com
+    login: admin
+    password: admin
+    roles:
+      - admin
+
