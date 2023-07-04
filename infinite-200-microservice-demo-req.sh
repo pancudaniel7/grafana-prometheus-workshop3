@@ -5,8 +5,8 @@
 #
 
 while [ true ]; do
-    echo curl /foo/bar
-    curl -s http://localhost:8080/foo/bar > /dev/null
+    echo curl /
+    curl -s http://localhost:8000/ > /dev/null
 
     pause_time=$(( ${RANDOM} % 5 ))
     echo sleep ${pause_time}
