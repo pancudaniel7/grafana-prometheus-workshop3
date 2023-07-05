@@ -13,7 +13,8 @@ const req_counter = new Prometheus.Counter({
 const req_histogram = new Prometheus.Histogram({
     name: 'req_histogram',
     help: 'Four bucket histogram for requests',
-    buckets: [0.4, 1, 3, 5],
+    buckets: [200, 250, 300, 400],
+    labelNames: ['method']
 });
 
 app.all('/health', (req, res) => { 
@@ -25,7 +26,7 @@ app.all('/health', (req, res) => {
 
 app.all('/histogram', (req, res) => { 
     const randomValue = Math.floor(Math.random() * 5);
-    req_histogram.observe(randomValue);
+    req_histogram.labels('/histogram').observe(randomValue);
     res.json({ status: 'ok' });
 });
 
