@@ -3,14 +3,14 @@ const express = require('express');
 const Prometheus = require('prom-client');
 const app = express();
 
-const metricsInterval = Prometheus.collectDefaultMetrics();
+Prometheus.collectDefaultMetrics();
 const req_counter = new Prometheus.Counter({
     name: 'req_counter',
     help: 'Total number of requests',
     labelNames: ['method']
 });
 
-app.all('/', (req, res) => {
+app.all('/health', (req, res) => { 
     req_counter.inc({
         method: req.method,
     });
